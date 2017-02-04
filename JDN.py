@@ -1,5 +1,7 @@
 from math import modf
 
+__author__ = "Moskvin Vasilii (vasiliy.moscvin@yandex.ru)"
+
 def get_leap(year):
     """
     Returns True if year is Leap year, else False
