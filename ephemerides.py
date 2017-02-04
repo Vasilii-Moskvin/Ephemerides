@@ -2,6 +2,7 @@ import Variable
 import JDN
 import os.path
 
+__author__ = "Moskvin Vasilii (vasiliy.moscvin@yandex.ru)"
 
 def get_ephemerides_by_date(in_filename, out_filename):
     """
