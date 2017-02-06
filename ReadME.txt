@@ -1,4 +1,6 @@
-python 3
+The program is in development
+
+use python 3
 
 To start use ephemerides.py
 >python ephemerides.py
