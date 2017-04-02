@@ -4,7 +4,7 @@ import os.path
 
 import JDN
 
-Ephemeris = namedtuple('Ephemeris', ('name', 'start', 'center', 'end'))
+Ephemeris = namedtuple('Ephemeris', ('object_name', 'start', 'center', 'end'))
 
 
 class VarStar:
@@ -25,21 +25,21 @@ class VarStar:
     def next_ephemeris(self, epoch):
         return epoch + self.period
 
-    def ephemeris_between_dates(self, first_date, second_date):
+    def ephemerises_between_dates(self, first_date, second_date):
         first_date = float(first_date)
         second_date = float(second_date)
-        lst_ephemeris = list()
+        lst_ephemerises = list()
 
         count_periods = (first_date - self.start_epoch(self.center_epoch)) // self.period
         temp_epoch = self.center_epoch + self.period * count_periods
         while self.next_ephemeris(self.end_epoch(temp_epoch)) <= second_date:
-            lst_ephemeris.append(Ephemeris(self.name,
+            lst_ephemerises.append(Ephemeris(self.object_name,
                                            self.start_epoch(temp_epoch),
                                            temp_epoch,
                                            self.end_epoch(temp_epoch)))
             temp_epoch = self.next_ephemeris(temp_epoch)
 
-        return lst_ephemeris
+        return lst_ephemerises
 
     def __str__(self):
         return 'name = {} ra = {} de = {} period = {} center_epoch = {} duration = {}'.format(self.name, self.ra,
@@ -56,12 +56,12 @@ def stars_from_file(file_path):
     return lst_stars
 
 
-def ephemeris_for_stars(stars, first_date, second_date):
-    lst_ephemeris = list()
+def ephemerises_for_stars(stars, first_date, second_date):
+    lst_ephemerises = list()
     for star in stars:
-        lst_ephemeris.extend(star.ephemeris_between_dates(first_date, second_date))
+        lst_ephemerises.extend(star.ephemerises_between_dates(first_date, second_date))
 
-    return sorted(lst_ephemeris, key=lambda x: x.start)
+    return sorted(lst_ephemerises, key=lambda x: x.start)
 
 
 def main():
@@ -70,15 +70,15 @@ def main():
                                    ' (format: year/month/day/hour/minute/second):\n').strip().split('/'))
     second_date = JDN.get_JD(*input('Enter first date '
                                     '(format: year/month/day/hour/minute/second):\n').strip().split('/'))
-    output = ephemeris_for_stars(stars, str(first_date), str(second_date))
-    for src in output:
+    lst_ephemerises = ephemerises_for_stars(stars, str(first_date), str(second_date))
+    for ephemeris in lst_ephemerises:
         print("{}\t"
               "{}/{}/{} {}:{}:{}\t"
               "{}/{}/{} {}:{}:{}\t"
-              "{}/{}/{} {}:{}:{}".format(src.name,
-                                         *JDN.get_GD(str(src.start)),
-                                         *JDN.get_GD(str(src.center)),
-                                         *JDN.get_GD(str(src.end))))
+              "{}/{}/{} {}:{}:{}".format(ephemeris.object_name,
+                                         *JDN.get_GD(str(ephemeris.start)),
+                                         *JDN.get_GD(str(ephemeris.center)),
+                                         *JDN.get_GD(str(ephemeris.end))))
 
 
 if __name__ == '__main__':
