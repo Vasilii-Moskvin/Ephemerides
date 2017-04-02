@@ -25,7 +25,7 @@ class VarStar:
     def next_ephemeris(self, epoch):
         return epoch + self.period
 
-    def ephemeris_bn_dates(self, first_date, second_date):
+    def ephemeris_between_dates(self, first_date, second_date):
         first_date = float(first_date)
         second_date = float(second_date)
         lst_ephemeris = list()
@@ -59,18 +59,18 @@ def stars_from_file(file_path):
 def ephemeris_for_stars(stars, first_date, second_date):
     lst_ephemeris = list()
     for star in stars:
-        lst_ephemeris.extend(star.ephemeris_bn_dates(first_date, second_date))
+        lst_ephemeris.extend(star.ephemeris_between_dates(first_date, second_date))
 
     return sorted(lst_ephemeris, key=lambda x: x.start)
 
 
 def main():
-    stars = stars_for_file(os.path.abspath(input('Enter path:\n')))
+    stars = stars_from_file(os.path.abspath(input('Enter path:\n')))
     first_date = JDN.get_JD(*input('Enter first date'
                                    ' (format: year/month/day/hour/minute/second):\n').strip().split('/'))
     second_date = JDN.get_JD(*input('Enter first date '
                                     '(format: year/month/day/hour/minute/second):\n').strip().split('/'))
-    output = ephemeris_from_stars(stars, str(first_date), str(second_date))
+    output = ephemeris_for_stars(stars, str(first_date), str(second_date))
     for src in output:
         print("{}\t"
               "{}/{}/{} {}:{}:{}\t"
