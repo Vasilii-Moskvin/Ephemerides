@@ -56,7 +56,7 @@ def stars_from_file(file_path):
     return lst_stars
 
 
-def ephemeris_from_stars(stars, first_date, second_date):
+def ephemeris_for_stars(stars, first_date, second_date):
     lst_ephemeris = list()
     for star in stars:
         lst_ephemeris.extend(star.ephemeris_bn_dates(first_date, second_date))
@@ -65,7 +65,7 @@ def ephemeris_from_stars(stars, first_date, second_date):
 
 
 def main():
-    stars = stars_from_file(os.path.abspath(input('Enter path:\n')))
+    stars = stars_for_file(os.path.abspath(input('Enter path:\n')))
     first_date = JDN.get_JD(*input('Enter first date'
                                    ' (format: year/month/day/hour/minute/second):\n').strip().split('/'))
     second_date = JDN.get_JD(*input('Enter first date '
