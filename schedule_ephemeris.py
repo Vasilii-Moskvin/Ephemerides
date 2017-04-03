@@ -111,14 +111,39 @@ def ephemerises_for_stars(stars, first_date, second_date):
     return sorted(lst_ephemerises, key=lambda x: x.start)
 
 
-def main():
-    stars = stars_from_file(os.path.abspath(input('Enter path:\n')))
-    first_date = JDN.get_JD(*input('Enter first date'
-                                   ' (format: year/month/day/hour/minute/second):\n').strip().split('/'))
-    second_date = JDN.get_JD(*input('Enter first date '
-                                    '(format: year/month/day/hour/minute/second):\n').strip().split('/'))
-    lst_ephemerises = ephemerises_for_stars(stars, str(first_date), str(second_date))
+def print_ephemerises(lst_ephemerises):
+    """
+    Print the list of ephemerises
+    :param lst_ephemerises: list of ephemerises
+    :return: printed list of ephemerises
+    """
+    previous_JD = lst_ephemerises[0].start
+    previous_hour = JDN.get_GD(str(lst_ephemerises[0].start))[3]
+    previous_day = JDN.get_GD(str(lst_ephemerises[0].start))[2]
+    print('{}/{:02}/{:02}'.format(*JDN.get_GD(str(lst_ephemerises[0].start))))
     for ephemeris in lst_ephemerises:
+        this_JD = ephemeris.start
+        this_hour = JDN.get_GD(str(ephemeris.start))[3]
+        this_day = JDN.get_GD(str(ephemeris.start))[2]
+        if this_JD - previous_JD >= 0.5:
+            if this_hour >= 12:
+                print('\n{}/{:02}/{:02}'.format(*JDN.get_GD(str(ephemeris.start))))
+                previous_JD = this_JD
+                previous_hour = this_hour
+                previous_day = this_day
+            else:
+                if this_day != previous_day:
+                    print('\n{}/{:02}/{:02}'.format(*JDN.get_GD(str(ephemeris.start - 1))))
+                    previous_JD = this_JD
+                    previous_hour = this_hour
+                    previous_day = this_day
+        else:
+            if this_hour >= 12:
+                if previous_hour < 12:
+                    print('\n{}/{:02}/{:02}'.format(*JDN.get_GD(str(ephemeris.start))))
+                    previous_JD = this_JD
+                    previous_hour = this_hour
+                    previous_day = this_day
         print("{:10}\t"
               "{}/{:02}/{:02} {:02}:{:02}:{:02}\t"
               "{}/{:02}/{:02} {:02}:{:02}:{:02}\t"
@@ -126,6 +151,16 @@ def main():
                                                         *JDN.get_GD(str(ephemeris.start)),
                                                         *JDN.get_GD(str(ephemeris.center)),
                                                         *JDN.get_GD(str(ephemeris.end))))
+
+
+def main():
+    stars = stars_from_file(os.path.abspath(input('Enter path:\n')))
+    first_date = JDN.get_JD(*input('Enter first date'
+                                   ' (format: year/month/day/hour/minute/second):\n').strip().split('/'))
+    second_date = JDN.get_JD(*input('Enter first date '
+                                    '(format: year/month/day/hour/minute/second):\n').strip().split('/'))
+    lst_ephemerises = ephemerises_for_stars(stars, str(first_date), str(second_date))
+    print_ephemerises(lst_ephemerises)
 
 
 if __name__ == '__main__':
