@@ -8,8 +8,8 @@ Ephemeris = namedtuple('Ephemeris', ('object_name', 'start', 'center', 'end'))
 
 
 class VarStar:
-    def __init__(self, name, ra, de, period, center_epoch, duration):
-        self.name = name
+    def __init__(self, object_name, ra, de, period, center_epoch, duration):
+        self.object_name = object_name
         self.ra = ra
         self.de = de
         self.period = float(period)
