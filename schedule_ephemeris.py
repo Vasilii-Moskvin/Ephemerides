@@ -119,13 +119,13 @@ def main():
                                     '(format: year/month/day/hour/minute/second):\n').strip().split('/'))
     lst_ephemerises = ephemerises_for_stars(stars, str(first_date), str(second_date))
     for ephemeris in lst_ephemerises:
-        print("{}\t"
-              "{}/{}/{} {}:{}:{}\t"
-              "{}/{}/{} {}:{}:{}\t"
-              "{}/{}/{} {}:{}:{}".format(ephemeris.object_name,
-                                         *JDN.get_GD(str(ephemeris.start)),
-                                         *JDN.get_GD(str(ephemeris.center)),
-                                         *JDN.get_GD(str(ephemeris.end))))
+        print("{:10}\t"
+              "{}/{:02}/{:02} {:02}:{:02}:{:02}\t"
+              "{}/{:02}/{:02} {:02}:{:02}:{:02}\t"
+              "{}/{:02}/{:02} {:02}:{:02}:{:02}".format(ephemeris.object_name,
+                                                        *JDN.get_GD(str(ephemeris.start)),
+                                                        *JDN.get_GD(str(ephemeris.center)),
+                                                        *JDN.get_GD(str(ephemeris.end))))
 
 
 if __name__ == '__main__':
