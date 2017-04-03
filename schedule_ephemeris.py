@@ -5,6 +5,8 @@ import os.path
 import JDN
 
 
+__author__ = 'Vasilii Moskvin https://github.com/Vasilii-Moskvin'
+
 Ephemeris = namedtuple('Ephemeris', ('object_name', 'start', 'center', 'end'))
 
 
@@ -111,7 +113,6 @@ def ephemerises_for_stars(stars, first_date, second_date):
 
 def main():
     stars = stars_from_file(os.path.abspath(input('Enter path:\n')))
-    print(stars)
     first_date = JDN.get_JD(*input('Enter first date'
                                    ' (format: year/month/day/hour/minute/second):\n').strip().split('/'))
     second_date = JDN.get_JD(*input('Enter first date '
