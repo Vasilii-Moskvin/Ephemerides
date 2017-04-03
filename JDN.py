@@ -126,4 +126,4 @@ def get_GD(JD, *key):
     if key and key[0] == '-f':
         return "{}/{}/{}\t{}:{}:{}".format(day, month, year, hours, minuts, seconds)
     else:
-        return day, month, year, hours, minuts, seconds
+        return year, month, day, hours, minuts, seconds
