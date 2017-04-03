@@ -113,7 +113,7 @@ def ephemerises_for_stars(stars, first_date, second_date):
 
 def print_ephemerises(lst_ephemerises):
     """
-    Print the list of ephemerises
+    Print the list of ephemerises. Test mode. Don't correct works.
     :param lst_ephemerises: list of ephemerises
     :return: printed list of ephemerises
     """
